@@ -4,6 +4,7 @@ import { TemplateGallery } from '@/components/templates/TemplateGallery'
 import { TemplateDetail } from '@/components/templates/TemplateDetail'
 import { useGridStore } from '@/lib/store'
 import { motion } from 'framer-motion'
+import { ImportantNote } from '../ui/ImportantNote'
 
 interface TemplatesPageProps {
   onBack: () => void
@@ -18,6 +19,7 @@ export function TemplatesPage({ onBack }: TemplatesPageProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
+        className='mb-5'
       >
         {!selectedTemplate && (
           <div className="flex items-center mb-6">
@@ -37,6 +39,8 @@ export function TemplatesPage({ onBack }: TemplatesPageProps) {
           {selectedTemplate ? <TemplateDetail /> : <TemplateGallery />}
         </div>
       </motion.div>
+      
+      <ImportantNote />
     </div>
   )
 } 

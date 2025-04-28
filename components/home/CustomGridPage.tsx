@@ -6,6 +6,7 @@ import { CSSDisplay } from '@/components/grid/CSSDisplay'
 import { useGridStore } from '@/lib/store'
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { ImportantNote } from '../ui/ImportantNote'
 
 interface CustomGridPageProps {
   onBack: () => void
@@ -56,6 +57,8 @@ export function CustomGridPage({ onBack }: CustomGridPageProps) {
             </div>
           </div>
         </div>
+
+        <ImportantNote />
       </motion.div>
     </div>
   )

@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   title: "Petals - Beautiful CSS Grid Maker",
   description: "Create beautiful CSS grids without touching code",
   icons: {
-    icon: "/favicon.svg",
+    icon: "/favicon.ico",
   },
 };
 

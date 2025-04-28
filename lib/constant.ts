@@ -472,12 +472,10 @@ export const HTML_CODE = ` <div class="parent">
 </div>`;
 
 export const SAMPLE_TEMPLATES = [
-    { name: "Classic Grid", id: 1 },
-    { name: "Masonry Layout", id: 2 },
-    { name: "Magazine Style", id: 3 },
-    { name: "Portfolio Grid", id: 4 },
-    { name: "Dashboard Layout", id: 5 },
-    { name: "Feature Showcase", id: 6 },
+    { name: "Diamond Pattern", id: 1 },
+    { name: "Central Focus", id: 2 },
+    { name: "Staggered Columns", id: 3 },
+    { name: "Spotlight Grid", id: 4 },
+    { name: "Asymmetric Mosaic", id: 6 },
     { name: "Gallery Grid", id: 7 },
-    { name: "Blog Layout", id: 8 },
   ];

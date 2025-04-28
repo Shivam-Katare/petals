@@ -5,55 +5,59 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { CustomGridPage } from './CustomGridPage'
 import { TemplatesPage } from './TemplatesPage';
-import { Github, Copy, RefreshCw, Star, ChevronRight } from 'lucide-react';
+import { Github, Copy, RefreshCw, Star, ChevronRight, LayoutTemplate } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import { HTML_CODE, SAMPLE_GRID_LAYOUTS, SAMPLE_TEMPLATES } from '@/lib/constant';
 import { codeToHtml } from 'shiki'
 import toast from 'react-hot-toast';
+import { FAQSection } from './FAQSection';
+import { ContributionNote } from './ContributionNote';
+import Link from 'next/link';
+import Image from 'next/image';
 
 export function HomePage() {
   const [screen, setScreen] = useState<'home' | 'custom' | 'templates'>('home')
   const [cssCode, setCssCode] = useState(SAMPLE_GRID_LAYOUTS[0]);
   const [gridsCreated, setGridsCreated] = useState(1247);
 
-    // Add state for highlighted code
-    const [highlightedCSS, setHighlightedCSS] = useState<string>('');
-    const [highlightedHTML, setHighlightedHTML] = useState<string>('');
-    
-    // Use two separate useEffect hooks - one for CSS, one for HTML
-    useEffect(() => {
-      const highlightCSS = async () => {
-        try {
-          const highlighted = await codeToHtml(cssCode, {
-            lang: 'css',
-            theme: 'github-dark'
-          });
-          setHighlightedCSS(highlighted);
-        } catch (error) {
-          console.error('Error highlighting CSS code:', error);
-        }
-      };
-      
-      highlightCSS();
-    }, [cssCode]);
-    
-    // Separate useEffect for HTML highlighting
-    useEffect(() => {
-      const highlightHTML = async () => {
-        try {
-          const highlighted = await codeToHtml(HTML_CODE, {
-            lang: 'html',
-            theme: 'github-dark'
-          });
-          setHighlightedHTML(highlighted);
-        } catch (error) {
-          console.error('Error highlighting HTML code:', error);
-        }
-      };
-      
-      highlightHTML();
-    }, []); // Empty dependency array since HTML_CODE doesn't change
+  // Add state for highlighted code
+  const [highlightedCSS, setHighlightedCSS] = useState<string>('');
+  const [highlightedHTML, setHighlightedHTML] = useState<string>('');
+
+  // Use two separate useEffect hooks - one for CSS, one for HTML
+  useEffect(() => {
+    const highlightCSS = async () => {
+      try {
+        const highlighted = await codeToHtml(cssCode, {
+          lang: 'css',
+          theme: 'github-dark'
+        });
+        setHighlightedCSS(highlighted);
+      } catch (error) {
+        console.error('Error highlighting CSS code:', error);
+      }
+    };
+
+    highlightCSS();
+  }, [cssCode]);
+
+  // Separate useEffect for HTML highlighting
+  useEffect(() => {
+    const highlightHTML = async () => {
+      try {
+        const highlighted = await codeToHtml(HTML_CODE, {
+          lang: 'html',
+          theme: 'github-dark'
+        });
+        setHighlightedHTML(highlighted);
+      } catch (error) {
+        console.error('Error highlighting HTML code:', error);
+      }
+    };
+
+    highlightHTML();
+  }, []); // Empty dependency array since HTML_CODE doesn't change
 
   if (screen === 'custom') {
     return <CustomGridPage onBack={() => setScreen('home')} />
@@ -82,15 +86,19 @@ export function HomePage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="text-2xl font-bold">Petals</div>
-        <div className="flex items-center gap-4">
-          <div className="text-sm text-muted-foreground">
-            <span className="font-medium text-foreground">{gridsCreated.toLocaleString()}</span> grids created
+        <div className='flex items-center gap-[5px]'>
+        <Image src="/logo.png" width={24} height={24} alt='Petals' />
+
+          <div className="text-2xl font-['Space_Grotesk']">
+            Petals
           </div>
+        </div>
+
+        <div className="flex items-center gap-4">
           <ThemeToggle />
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+          <Link href="https://github.com/Shivam-Katare/petals" target="_blank" rel="noopener noreferrer">
             <Github className="h-5 w-5" />
-          </a>
+          </Link>
         </div>
       </motion.header>
 
@@ -164,19 +172,21 @@ export function HomePage() {
               <div className="flex items-center gap-2">
                 <Button
                   size="icon"
-                  className="h-8 w-8 bg-white dark:bg-black"
+                  className="h-8 w-8 bg-white dark:bg-black hover:text-white"
                   onClick={generateRandomGrid}
                   title="Generate random grid"
+                  variant="default"
                 >
-                  <RefreshCw className="h-4 w-4 text-foreground" />
+                  <RefreshCw className="h-4 w-4 text-foreground hover:text-white" />
                 </Button>
                 <Button
                   size="icon"
-                  className="h-8 w-8 bg-white dark:bg-black"
+                  className="h-8 w-8 bg-white dark:bg-black hover:text-white"
                   onClick={() => copyToClipboard(cssCode + '\n\n' + HTML_CODE)}
                   title="Copy code"
+                  variant="default"
                 >
-                  <Copy className="h-4 w-4 text-foreground" />
+                  <Copy className="h-4 w-4 text-foreground hover:text-white" />
                 </Button>
               </div>
             </div>
@@ -241,10 +251,73 @@ export function HomePage() {
                 className="bg-card border rounded-lg shadow-sm min-w-64 overflow-hidden flex-shrink-0"
               >
                 <div className="aspect-video bg-secondary/30 flex items-center justify-center">
-                  <div className="grid grid-cols-2 gap-2 p-4 w-full h-full">
-                    {[1, 2, 3, 4].map((i) => (
-                      <div key={i} className="bg-background/50 rounded" />
-                    ))}
+                  <div className="w-full h-full p-4">
+                    {/* Dynamic preview based on template type */}
+                    {template.name === 'Spotlight Grid' ? (
+                      <div className="w-full h-full flex flex-col gap-1">
+                        <div className="grid grid-cols-3 gap-1 flex-1">
+                          <div className="bg-primary/70 rounded"></div>
+                          <div className="bg-primary/70 rounded"></div>
+                          <div className="bg-primary/70 rounded"></div>
+                        </div>
+                        <div className="bg-blue-500/70 dark:bg-blue-700/70 rounded h-8"></div>
+                        <div className="bg-primary/70 rounded h-8"></div>
+                      </div>
+                    ) : template.name === 'Asymmetric Mosaic' ? (
+                      <div className="grid grid-cols-4 grid-rows-3 gap-1 h-full w-full">
+                        <div className="bg-cyan-200/70 dark:bg-cyan-800/70 rounded col-span-2 row-span-2"></div>
+                        <div className="bg-cyan-200/70 dark:bg-cyan-800/70 rounded col-span-2"></div>
+                        <div className="bg-cyan-200/70 dark:bg-cyan-800/70 rounded row-span-2"></div>
+                        <div className="bg-cyan-200/70 dark:bg-cyan-800/70 rounded row-span-2"></div>
+                        <div className="bg-cyan-200/70 dark:bg-cyan-800/70 rounded col-span-2"></div>
+                      </div>
+                    ) : template.name === 'Staggered Columns' ? (
+                      <div className="grid grid-cols-3 gap-1 h-full w-full bg-indigo-950/30 p-1 rounded">
+                        <div className="bg-indigo-300/70 dark:bg-indigo-700/70 row-span-2 rounded"></div>
+                        <div className="bg-indigo-300/70 dark:bg-indigo-700/70 col-span-2 rounded"></div>
+                        <div className="bg-indigo-300/70 dark:bg-indigo-700/70 row-span-2 rounded"></div>
+                        <div className="bg-indigo-300/70 dark:bg-indigo-700/70 rounded"></div>
+                        <div className="bg-indigo-300/70 dark:bg-indigo-700/70 col-span-2 rounded"></div>
+                      </div>
+                    ) : template.name === 'Central Focus' ? (
+                      <div className="grid h-full w-full gap-1" style={{
+                        gridTemplateAreas: '"a a b" "c d b" "e e e"'
+                      }}>
+                        <div className="bg-primary/70 rounded" style={{ gridArea: 'a' }}></div>
+                        <div className="bg-primary/70 rounded" style={{ gridArea: 'b' }}></div>
+                        <div className="bg-primary/70 rounded" style={{ gridArea: 'c' }}></div>
+                        <div className="bg-purple-500/70 dark:bg-purple-700/70 rounded" style={{ gridArea: 'd' }}></div>
+                        <div className="bg-primary/70 rounded" style={{ gridArea: 'e' }}></div>
+                      </div>
+                    ) : template.name === 'Diamond Pattern' ? (
+                      <div className="relative h-full w-full" style={{ transform: 'rotate(45deg)' }}>
+                        <div className="absolute bg-purple-400/70 dark:bg-purple-600/70 rounded z-10" style={{ width: '30%', height: '30%', top: '35%', left: '35%' }}></div>
+                        <div className="absolute bg-primary/70 rounded" style={{ width: '30%', height: '30%', top: '5%', left: '35%' }}></div>
+                        <div className="absolute bg-primary/70 rounded" style={{ width: '30%', height: '30%', top: '35%', left: '5%' }}></div>
+                        <div className="absolute bg-primary/70 rounded" style={{ width: '30%', height: '30%', top: '35%', left: '65%' }}></div>
+                        <div className="absolute bg-primary/70 rounded" style={{ width: '30%', height: '30%', top: '65%', left: '35%' }}></div>
+                      </div>
+                    ) : template.name === 'magnolia-horizontal' ? (
+                      <div className="grid grid-cols-6 gap-1 h-full w-full">
+                        {[1, 2, 3, 4, 5, 6].map((i) => (
+                          <div
+                            key={i}
+                            className="bg-background/70 rounded"
+                            style={{
+                              gridColumn: i % 3 === 0 ? 'span 4' : 'span 2',
+                              transform: i % 3 === 0 ? 'rotate(-5deg)' : ''
+                            }}
+                          ></div>
+                        ))}
+                      </div>
+                    ) : (
+                      // Default grid for any other templates
+                      <div className="grid grid-cols-2 gap-2 w-full h-full">
+                        {[1, 2, 3, 4].map((i) => (
+                          <div key={i} className="bg-primary/50 rounded" />
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="p-4">
@@ -267,6 +340,10 @@ export function HomePage() {
         </div>
       </motion.section>
 
+      <ContributionNote />
+
+      <FAQSection />
+
       {/* CTA & Footer */}
       <motion.section
         className="py-20 px-4 text-center flex flex-col items-center"
@@ -280,18 +357,8 @@ export function HomePage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.6 }}
         >
-          Create a website without limits
+          Create Your Perfect Grid Now
         </motion.h2>
-
-        <motion.p
-          className="text-xl text-muted-foreground mb-10 max-w-2xl"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.7 }}
-        >
-          Petals helps you build beautiful grid layouts without touching a line of code.
-          Perfect for designers and developers alike.
-        </motion.p>
 
         <motion.div
           className="mb-16"
@@ -299,15 +366,15 @@ export function HomePage() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, delay: 0.8 }}
         >
-          <a
-            href="https://github.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-card hover:bg-card/80 text-foreground px-6 py-3 rounded-md border transition-colors"
+          <Button
+            size="lg"
+            className="text-base py-6"
+            onClick={() => setScreen('custom')}
           >
-            <Star className="h-5 w-5" />
-            <span className="font-medium">Star us on GitHub</span>
-          </a>
+            Create Here
+            <ChevronRight className="ml-2 h-4 w-4" />
+          </Button>
+
         </motion.div>
 
         <motion.p
@@ -316,9 +383,36 @@ export function HomePage() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.7, delay: 0.9 }}
         >
-          Made with ❤️ by the Petals team
+          Made with ❤️ by the Shivam Katare
         </motion.p>
       </motion.section>
+
+      {/* Footer */}
+      <footer className="border-t py-8 px-4 md:px-8 mt-auto">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-muted-foreground">© 2025 Petals. MIT License.</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <Link
+              href="https://github.com/Shivam-Katare"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              GitHub
+            </Link>
+            <Link
+              href="https://x.com/Shivamkatare_27"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Twitter
+            </Link>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 } 
