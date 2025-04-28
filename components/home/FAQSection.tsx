@@ -1,4 +1,3 @@
-import { ChevronDown } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -15,14 +14,14 @@ export function FAQSection() {
         <AccordionItem value="item-1" className="border rounded-lg p-2">
           <AccordionTrigger className="text-lg font-medium">What is Petals?</AccordionTrigger>
           <AccordionContent>
-            Petals is a simple tool to create beautiful CSS Grid layouts, either by choosing a ready template or designing your own — no complex setup needed!
+            Petals is a simple tool to create beautiful CSS Grid layouts, either by choosing a ready template or designing your own. No complex setup needed!
           </AccordionContent>
         </AccordionItem>
 
         <AccordionItem value="item-2" className="border rounded-lg p-2">
-          <AccordionTrigger className="text-lg font-medium">What is a "Grid" in web design?</AccordionTrigger>
+          <AccordionTrigger className="text-lg font-medium">What is a &apos;Grid&apos; in web design?</AccordionTrigger>
           <AccordionContent>
-            A Grid is a structure made of intersecting rows and columns, used to layout elements clearly on a page. It's a core part of responsive, modern websites.
+            A Grid is a structure made of intersecting rows and columns, used to layout elements clearly on a page. It&apos;s a core part of responsive, and modern websites.
           </AccordionContent>
         </AccordionItem>
 
@@ -39,7 +38,6 @@ export function FAQSection() {
             <ul className="list-disc pl-4 space-y-2">
               <li><a href="https://css-tricks.com/snippets/css/complete-guide-grid/" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">CSS Tricks Complete Guide to Grid</a></li>
               <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">MDN Web Docs - CSS Grid Layout</a></li>
-              <li>Petals will soon link quick grid tutorials too!</li>
             </ul>
           </AccordionContent>
         </AccordionItem>
@@ -47,7 +45,7 @@ export function FAQSection() {
         <AccordionItem value="item-5" className="border rounded-lg p-2">
           <AccordionTrigger className="text-lg font-medium">Why does my copied grid sometimes look different?</AccordionTrigger>
           <AccordionContent>
-            Grids rely on things like padding, margin, and borders to look spaced correctly. Without extra styling, the grid may appear "tight" — just add simple CSS to fix that!
+            Grids rely on things like padding, margin, and borders to look spaced correctly. Without extra styling, the grid may appear &apos;tight&apos;, just add simple CSS to fix that!
           </AccordionContent>
         </AccordionItem>
       </Accordion>

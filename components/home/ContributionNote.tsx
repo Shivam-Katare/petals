@@ -9,11 +9,11 @@ export function ContributionNote() {
         <div className="prose dark:prose-invert mx-auto">
           <p className="text-lg leading-relaxed mb-6">
             We welcome contributions!
-            Whether you're a beginner learning CSS Grids or an experienced developer passionate about layouts,
+            Whether you&apos;re a beginner learning CSS Grids or an experienced developer passionate about layouts,
             your ideas, improvements, templates, or feedback are highly valuable.
           </p>
           <p className="text-lg leading-relaxed flex items-center justify-center gap-2">
-            Let's grow Petals together — every contribution, big or small, is appreciated!
+            Let&apos;s grow Petals together. Every contribution, big or small, is appreciated!
             <Heart className="h-5 w-5 text-red-500 inline" />
           </p>
         </div>

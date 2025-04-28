@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { useGridStore } from '@/lib/store'
 import { ChevronDown, ChevronRight, ChevronUp, ChevronLeft, X } from 'lucide-react'
@@ -19,7 +19,6 @@ export function GridPreview() {
     setItemColSpan,
     setItemRowSpan,
     resetItemSpans,
-    getItemById
   } = useGridStore()
 
   // Initialize grid dimensions and styles

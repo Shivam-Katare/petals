@@ -5,7 +5,7 @@ import { Slider } from '@/components/ui/slider'
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
-import { Copy, RotateCcw, RefreshCw, ArrowRight, Undo } from 'lucide-react'
+import { Copy, RotateCcw, Undo } from 'lucide-react'
 
 export function GridSettings() {
   const { 
@@ -28,7 +28,6 @@ export function GridSettings() {
   } = useGridStore()
 
   const [activeTab, setActiveTab] = useState<'columns' | 'rows'>('columns')
-  const [advancedMode, setAdvancedMode] = useState(false)
 
   const handleCopyCSS = () => {
     const css = generateCSS()
@@ -39,10 +38,6 @@ export function GridSettings() {
   const handleResetAll = () => {
     resetToDefaults()
     toast.success('Reset to default values')
-  }
-
-  const handleToggleAdvanced = () => {
-    setAdvancedMode(!advancedMode)
   }
 
   return (

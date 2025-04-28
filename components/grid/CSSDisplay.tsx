@@ -64,34 +64,6 @@ export function CSSDisplay() {
     toast.success(`${codeType.toUpperCase()} copied to clipboard!`)
   }
   
-  // Simple CSS syntax highlighting by wrapping different parts with colored spans
-  const formatCssForDisplay = (cssText: string) => {
-    // Replace CSS syntax with colored spans
-    return cssText
-      // Properties and values
-      .replace(/([a-zA-Z-]+)(\s*:\s*)([^;]+)(;?)/g, '<span class="text-purple-500">$1</span>$2<span class="text-blue-400">$3</span>$4')
-      // Selectors
-      .replace(/([.#]?[a-zA-Z0-9_-]+)(\s*\{)/g, '<span class="text-green-400">$1</span>$2')
-      // Brackets
-      .replace(/(\{|\})/g, '<span class="text-yellow-500">$1</span>')
-      // Comments
-      .replace(/(\/\*[\s\S]*?\*\/)/g, '<span class="text-gray-500">$1</span>')
-      // Media queries
-      .replace(/(@media[^{]+\{)/g, '<span class="text-red-400">$1</span>')
-  }
-  
-  // Simple HTML syntax highlighting
-  const formatHtmlForDisplay = (htmlText: string) => {
-    return htmlText
-      // Tags
-      .replace(/(&lt;[\/]?[a-zA-Z0-9_-]+)(\s*[^&]*?&gt;)/g, '<span class="text-red-400">$1</span>$2')
-      // Attributes
-      .replace(/(\s+[a-zA-Z0-9_-]+)(\s*=\s*"[^"]*")/g, '<span class="text-yellow-400">$1</span><span class="text-green-400">$2</span>')
-      // Replace < and > with their HTML entities
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-  }
-  
   return (
     <motion.div 
       initial={{ opacity: 0 }}

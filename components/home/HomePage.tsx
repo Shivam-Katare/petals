@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { CustomGridPage } from './CustomGridPage'
 import { TemplatesPage } from './TemplatesPage';
-import { Github, Copy, RefreshCw, Star, ChevronRight, LayoutTemplate } from 'lucide-react';
+import { Github, Copy, RefreshCw, ChevronRight } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import { HTML_CODE, SAMPLE_GRID_LAYOUTS, SAMPLE_TEMPLATES } from '@/lib/constant';
@@ -19,7 +19,6 @@ import Image from 'next/image';
 export function HomePage() {
   const [screen, setScreen] = useState<'home' | 'custom' | 'templates'>('home')
   const [cssCode, setCssCode] = useState(SAMPLE_GRID_LAYOUTS[0]);
-  const [gridsCreated, setGridsCreated] = useState(1247);
 
   // Add state for highlighted code
   const [highlightedCSS, setHighlightedCSS] = useState<string>('');
