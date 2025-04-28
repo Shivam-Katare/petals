@@ -12,6 +12,12 @@ export type GridTemplate = {
   html: string
 }
 
+export type GridItem = {
+  id: number
+  colSpan: number
+  rowSpan: number
+}
+
 interface GridState {
   // Custom grid settings
   columns: number
@@ -20,6 +26,10 @@ interface GridState {
   rowGap: number
   columnFractions: number[]
   rowFractions: number[]
+  
+  // Grid items for custom spans
+  gridItems: GridItem[]
+  selectedItemId: number | null
   
   // Selected template
   selectedTemplate: GridTemplate | null
@@ -36,6 +46,15 @@ interface GridState {
   resetToDefaults: () => void
   setSelectedTemplate: (template: GridTemplate | null) => void
   generateCSS: () => string
+  
+  // Grid item span actions
+  selectItem: (id: number | null) => void
+  setItemColSpan: (id: number, colSpan: number) => void
+  setItemRowSpan: (id: number, rowSpan: number) => void
+  resetItemSpans: (id: number) => void
+  resetAllItemSpans: () => void
+  getItemById: (id: number) => GridItem | undefined
+  initializeGridItems: () => void
 }
 
 export const useGridStore = create<GridState>((set, get) => ({
@@ -47,6 +66,11 @@ export const useGridStore = create<GridState>((set, get) => ({
   columnFractions: [1, 1, 1],
   rowFractions: [1, 1, 1],
   selectedTemplate: null,
+  
+  // Grid items for spans
+  gridItems: Array.from({ length: 9 }, (_, i) => ({ id: i + 1, colSpan: 1, rowSpan: 1 })),
+  selectedItemId: null,
+  
   templates: [
     {
       id: 'wildflower-mosaic',
@@ -290,15 +314,48 @@ export const useGridStore = create<GridState>((set, get) => ({
       html: "<div class=\"violet-spiral\">\n  <div class=\"item\">Item 1</div>\n  <div class=\"item\">Item 2</div>\n  <div class=\"item\">Item 3</div>\n  <div class=\"item\">Item 4</div>\n  <div class=\"item\">Item 5</div>\n</div>"
     },
     {
-      id: "daisy-slant",
-      name: "Daisy Slant",
-      description: "Overlapping diagonal items with a slanting effect for visual depth",
-      columns: "repeat(4, 1fr)",
+      id: "diamond-pattern",
+      name: "Diamond Pattern",
+      description: "A symmetric grid layout with items arranged in a diamond shape and a highlighted center",
+      columns: "1fr 1fr 1fr",
       rows: "auto",
-      columnGap: 24,
-      rowGap: 48,
-      css: ".daisy-slant {\n  display: grid;\n  grid-template-columns: repeat(4, 1fr);\n  grid-auto-rows: auto;\n  grid-gap: 24px 48px;\n  position: relative;\n}\n\n.daisy-slant .item {\n  position: relative;\n  transform: skew(-10deg);\n  grid-column: span 2;\n}\n\n.daisy-slant .item:nth-child(even) {\n  transform: skew(10deg);\n  grid-column: span 3;\n}\n\n/* --- Optional extra styling starts here (remove if not needed) --- */\n.daisy-slant .item {\n  background: #f5f3f3;\n  border: 1px solid #e0e0e0;\n  border-radius: 6px;\n  padding: 16px;\n  text-align: center;\n}\n/* --- Optional extra styling ends here --- */",
-      html: "<div class=\"daisy-slant\">\n  <div class=\"item\">Item 1</div>\n  <div class=\"item\">Item 2</div>\n  <div class=\"item\">Item 3</div>\n  <div class=\"item\">Item 4</div>\n  <div class=\"item\">Item 5</div>\n</div>"
+      columnGap: 16,
+      rowGap: 16,
+      css: ".diamond-pattern {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n  grid-template-rows: auto auto auto;\n  gap: 1rem;\n  aspect-ratio: 1/1;\n  max-width: 500px;\n  margin: 0 auto;\n  transform: rotate(45deg);\n}\n\n.diamond-pattern .item:nth-child(1) {\n  grid-column: 2 / 3;\n  grid-row: 1 / 2;\n}\n\n.diamond-pattern .item:nth-child(2) {\n  grid-column: 1 / 2;\n  grid-row: 2 / 3;\n}\n\n.diamond-pattern .item:nth-child(3) {\n  grid-column: 3 / 4;\n  grid-row: 2 / 3;\n}\n\n.diamond-pattern .item:nth-child(4) {\n  grid-column: 2 / 3;\n  grid-row: 3 / a4;\n}\n\n.diamond-pattern .item:nth-child(5) {\n  grid-column: 2 / 3;\n  grid-row: 2 / 3;\n}\n\n/* --- Optional extra styling starts here (remove if not needed) --- */\n.diamond-pattern .item {\n  background-color: #673ab7;\n  border: 2px solid #512da8;\n  color: white;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: bold;\n  padding: 2rem;\n  transform: rotate(-45deg);\n}\n\n.diamond-pattern .item:nth-child(5) {\n  background-color: #9c27b0;\n  z-index: 2;\n}\n/* --- Optional extra styling ends here --- */",
+      html: "<div class=\"diamond-pattern\">\n  <div class=\"item\">Item 1</div>\n  <div class=\"item\">Item 2</div>\n  <div class=\"item\">Item 3</div>\n  <div class=\"item\">Item 4</div>\n  <div class=\"item\">Item 5</div>\n</div>"
+    },
+    {
+      id: "spotlight-grid",
+      name: "Spolight Grid",
+      description: "A grid layout featuring a highlighted row for important content or features",
+      columns: "repeat(3, 1fr)",
+      rows: "repeat(3, minmax(80px, auto))",
+      columnGap: 16,
+      rowGap: 16,
+      css: ".spotlight-grid {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  grid-template-rows: repeat(3, minmax(80px, auto));\n  gap: 1rem;\n}\n\n.spotlight-grid .item:nth-child(1) {\n  grid-column: 1 / 2;\n  grid-row: 1 / 2;\n}\n\n.spotlight-grid .item:nth-child(2) {\n  grid-column: 2 / 3;\n  grid-row: 1 / 2;\n}\n\n.spotlight-grid .item:nth-child(3) {\n  grid-column: 3 / 4;\n  grid-row: 1 / 2;\n}\n\n.spotlight-grid .item:nth-child(4) {\n  grid-column: 1 / 4;\n  grid-row: 2 / 3;\n}\n\n.spotlight-grid .item:nth-child(5) {\n  grid-column: 1 / 4;\n  grid-row: 3 / 4;\n}\n\n/* --- Optional extra styling starts here (remove if not needed) --- */\n.spotlight-grid {\n  background-color: #101010;\n  padding: 2rem;\n  border-radius: 12px;\n}\n.spotlight-grid .item {\n  background-color: #1e1e1e;\n  color: #e0e0e0;\n  padding: 1.5rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-weight: 500;\n  border-radius: 8px;\n  transition: all 0.3s;\n}\n.spotlight-grid .item:nth-child(4) {\n  background-color: #003366;\n  font-size: 1.5rem;\n  font-weight: bold;\n  color: white;\n  letter-spacing: 1px;\n}\n.spotlight-grid .item:hover {\n  background-color: #2a2a2a;\n  color: white;\n}\n.spotlight-grid .item:nth-child(4):hover {\n  background-color: #004080;\n}\n/* --- Optional extra styling ends here --- */",
+      html: "<div class=\"spotlight-grid\">\n  <div class=\"item\">Item 1</div>\n  <div class=\"item\">Item 2</div>\n  <div class=\"item\">Item 3</div>\n  <div class=\"item\">Item 4</div>\n  <div class=\"item\">Item 5</div>\n</div>"
+    },
+    {
+      id: "staggered-columns",
+      name: "Staggered Columns",
+      description: "An asymmetric layout with items of different heights creating a staggered column effect",
+      columns: "repeat(3, 1fr)",
+      rows: "auto",
+      columnGap: 16,
+      rowGap: 16,
+      css: ".staggered-columns {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  grid-auto-rows: minmax(100px, auto);\n  gap: 1rem;\n}\n\n.staggered-columns .item:nth-child(1) {\n  grid-column: 1 / 2;\n  grid-row: 1 / 3;\n}\n\n.staggered-columns .item:nth-child(2) {\n  grid-column: 2 / 4;\n  grid-row: 1 / 2;\n}\n\n.staggered-columns .item:nth-child(3) {\n  grid-column: 2 / 3;\n  grid-row: 2 / 4;\n}\n\n.staggered-columns .item:nth-child(4) {\n  grid-column: 3 / 4;\n  grid-row: 2 / 3;\n}\n\n.staggered-columns .item:nth-child(5) {\n  grid-column: 1 / 3;\n  grid-row: 3 / 4;\n}\n\n/* --- Optional extra styling starts here (remove if not needed) --- */\n.staggered-columns {\n  background-color: #1a1a2e;\n  padding: 1.2rem;\n  border-radius: 8px;\n}\n.staggered-columns .item {\n  background-color: #16213e;\n  border-left: 5px solid #e94560;\n  color: white;\n  padding: 1.5rem;\n  font-weight: 500;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);\n}\n.staggered-columns .item:nth-child(odd) {\n  border-left-color: #0f3460;\n}\n/* --- Optional extra styling ends here --- */",
+      html: "<div class=\"staggered-columns\">\n  <div class=\"item\">Item 1</div>\n  <div class=\"item\">Item 2</div>\n  <div class=\"item\">Item 3</div>\n  <div class=\"item\">Item 4</div>\n  <div class=\"item\">Item 5</div>\n</div>"
+    },
+    {
+      id: "central-focus",
+      name: "Central Focus",
+      description: "A grid layout with a prominent central element to highlight key content",
+      columns: "1fr 1fr 1fr",
+      rows: "1fr 1fr 1fr",
+      columnGap: 19,
+      rowGap: 19,
+      css: ".central-focus {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n  grid-template-rows: 1fr 1fr 1fr;\n  gap: 1.2rem;\n  grid-template-areas:\n    \"a a b\"\n    \"c d b\"\n    \"e e e\";\n}\n\n.central-focus .item:nth-child(1) { grid-area: a; }\n.central-focus .item:nth-child(2) { grid-area: b; }\n.central-focus .item:nth-child(3) { grid-area: c; }\n.central-focus .item:nth-child(4) { grid-area: d; }\n.central-focus .item:nth-child(5) { grid-area: e; }\n\n/* --- Optional extra styling starts here (remove if not needed) --- */\n.central-focus {\n  max-width: 800px;\n  margin: 0 auto;\n  padding: 2rem;\n  background-color: #f7f7f7;\n  border-radius: 24px;\n}\n.central-focus .item {\n  background-color: white;\n  border-radius: 16px;\n  padding: 1.5rem;\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 1.2rem;\n  color: #444;\n}\n.central-focus .item:nth-child(4) {\n  background: linear-gradient(45deg, #6a11cb, #2575fc);\n  color: white;\n  font-weight: bold;\n  transform: scale(1.05);\n  z-index: 1;\n}\n/* --- Optional extra styling ends here --- */",
+      html: "<div class=\"central-focus\">\n  <div class=\"item\">Item 1</div>\n  <div class=\"item\">Item 2</div>\n  <div class=\"item\">Item 3</div>\n  <div class=\"item\">Item 4</div>\n  <div class=\"item\">Item 5</div>\n</div>"
     },
     {
       id: "magnolia-horizontal",
@@ -322,7 +379,17 @@ export const useGridStore = create<GridState>((set, get) => ({
         ? state.columnFractions
         : Array(columns).fill(1);
       
-      return { columns, columnFractions };
+      // Also reinitialize grid items when column count changes
+      return { 
+        columns, 
+        columnFractions,
+        gridItems: Array.from({ length: columns * state.rows }, (_, i) => ({ 
+          id: i + 1, 
+          colSpan: 1, 
+          rowSpan: 1 
+        })),
+        selectedItemId: null
+      };
     });
   },
   
@@ -332,7 +399,17 @@ export const useGridStore = create<GridState>((set, get) => ({
         ? state.rowFractions
         : Array(rows).fill(1);
       
-      return { rows, rowFractions };
+      // Also reinitialize grid items when row count changes
+      return { 
+        rows, 
+        rowFractions,
+        gridItems: Array.from({ length: state.columns * rows }, (_, i) => ({ 
+          id: i + 1, 
+          colSpan: 1, 
+          rowSpan: 1 
+        })),
+        selectedItemId: null
+      };
     });
   },
   
@@ -362,10 +439,68 @@ export const useGridStore = create<GridState>((set, get) => ({
     columnGap: 10,
     rowGap: 10,
     columnFractions: [1, 1, 1],
-    rowFractions: [1, 1, 1]
+    rowFractions: [1, 1, 1],
+    gridItems: Array.from({ length: 9 }, (_, i) => ({ id: i + 1, colSpan: 1, rowSpan: 1 })),
+    selectedItemId: null
   }),
   
-  setSelectedTemplate: (template) => set({ selectedTemplate: template }),
+  setSelectedTemplate: (template) => set({ 
+    selectedTemplate: template,
+    selectedItemId: null // Clear selected item when template is selected
+  }),
+  
+  // Grid item span actions
+  selectItem: (id) => set({ selectedItemId: id }),
+  
+  setItemColSpan: (id, colSpan) => set((state) => {
+    const { columns } = state;
+    // Ensure column span doesn't exceed grid width
+    const safeColSpan = Math.min(colSpan, columns);
+    
+    const updatedItems = state.gridItems.map(item => 
+      item.id === id ? { ...item, colSpan: safeColSpan } : item
+    );
+    
+    return { gridItems: updatedItems };
+  }),
+  
+  setItemRowSpan: (id, rowSpan) => set((state) => {
+    const { rows } = state;
+    // Ensure row span doesn't exceed grid height
+    const safeRowSpan = Math.min(rowSpan, rows);
+    
+    const updatedItems = state.gridItems.map(item => 
+      item.id === id ? { ...item, rowSpan: safeRowSpan } : item
+    );
+    
+    return { gridItems: updatedItems };
+  }),
+  
+  resetItemSpans: (id) => set((state) => ({
+    gridItems: state.gridItems.map(item => 
+      item.id === id ? { ...item, colSpan: 1, rowSpan: 1 } : item
+    )
+  })),
+  
+  resetAllItemSpans: () => set((state) => ({
+    gridItems: state.gridItems.map(item => ({ ...item, colSpan: 1, rowSpan: 1 }))
+  })),
+  
+  getItemById: (id) => {
+    return get().gridItems.find(item => item.id === id);
+  },
+  
+  initializeGridItems: () => set((state) => {
+    const totalItems = state.columns * state.rows;
+    return {
+      gridItems: Array.from({ length: totalItems }, (_, i) => ({ 
+        id: i + 1, 
+        colSpan: 1, 
+        rowSpan: 1 
+      })),
+      selectedItemId: null
+    };
+  }),
   
   generateCSS: () => {
     const state = get();
@@ -377,12 +512,36 @@ export const useGridStore = create<GridState>((set, get) => ({
     const columnValues = state.columnFractions.map(fr => `${fr}fr`).join(' ');
     const rowValues = state.rowFractions.map(fr => `${fr}fr`).join(' ');
     
-    return `.grid-container {
+    // Generate base grid CSS
+    let css = `.grid-container {
   display: grid;
   grid-template-columns: ${columnValues};
   grid-template-rows: ${rowValues};
   grid-column-gap: ${state.columnGap}px;
   grid-row-gap: ${state.rowGap}px;
 }`;
+
+    // Add span styles for items that have custom spans
+    const itemsWithSpans = state.gridItems.filter(item => item.colSpan > 1 || item.rowSpan > 1);
+    
+    if (itemsWithSpans.length > 0) {
+      css += '\n\n/* Grid item span styles */';
+      
+      itemsWithSpans.forEach(item => {
+        css += `\n.grid-container .item:nth-child(${item.id}) {`;
+        
+        if (item.colSpan > 1) {
+          css += `\n  grid-column: span ${item.colSpan};`;
+        }
+        
+        if (item.rowSpan > 1) {
+          css += `\n  grid-row: span ${item.rowSpan};`;
+        }
+        
+        css += '\n}';
+      });
+    }
+    
+    return css;
   }
 })); 

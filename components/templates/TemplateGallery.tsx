@@ -20,8 +20,11 @@ const templateDifficulty: Record<string, { level: number }> = {
   'lily-stack': { level: 2 },
   "lily-diagonal": { level: 2 },
   "violet-spiral": { level: 3 },
-  "daisy-slant": { level: 3 },
   "magnolia-horizontal": { level: 2 },
+  "diamond-pattern": {level: 2},
+  "spotlight-grid": { level: 3 },
+  "staggered-columns": { level: 4 },
+  "central-focus": { level: 4 }
 };
 
 export function TemplateGallery() {

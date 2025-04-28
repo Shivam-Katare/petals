@@ -5,7 +5,7 @@ import { Slider } from '@/components/ui/slider'
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import toast from 'react-hot-toast'
-import { Copy, RotateCcw } from 'lucide-react'
+import { Copy, RotateCcw, RefreshCw, ArrowRight, Undo } from 'lucide-react'
 
 export function GridSettings() {
   const { 
@@ -23,10 +23,12 @@ export function GridSettings() {
     setRowFraction,
     resetFractions,
     resetToDefaults,
-    generateCSS
+    generateCSS,
+    resetAllItemSpans
   } = useGridStore()
 
   const [activeTab, setActiveTab] = useState<'columns' | 'rows'>('columns')
+  const [advancedMode, setAdvancedMode] = useState(false)
 
   const handleCopyCSS = () => {
     const css = generateCSS()
@@ -37,6 +39,10 @@ export function GridSettings() {
   const handleResetAll = () => {
     resetToDefaults()
     toast.success('Reset to default values')
+  }
+
+  const handleToggleAdvanced = () => {
+    setAdvancedMode(!advancedMode)
   }
 
   return (
@@ -187,6 +193,21 @@ export function GridSettings() {
           <Copy className="mr-2 h-4 w-4" />
           Copy CSS
         </Button>
+      </div>
+
+      <div className="pt-3">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={resetAllItemSpans}
+          className="w-full flex items-center justify-center gap-2 text-sm"
+        >
+          <Undo className="h-4 w-4" />
+          Reset All Item Spans
+        </Button>
+        <p className="text-xs text-muted-foreground mt-2 text-center">
+          This will reset all grid items to their default 1x1 span
+        </p>
       </div>
     </div>
   )

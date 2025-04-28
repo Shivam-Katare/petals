@@ -42,6 +42,36 @@ const templateComplexity = {
     stars: '⭐⭐',
     technique: 'grid-auto-rows + margin offsets',
     explanation: 'Uses standard grid layout with vertical offsets via margins to create a staggered, stacked appearance. Adds hover animations for interactive engagement.'
+  },
+  'spotlight-grid': {
+    stars: '⭐⭐⭐',
+    technique: 'Varied row spans with full-width feature items',
+    explanation: 'This layout creates a spotlight effect by placing standard items in a row at the top, followed by a full-width featured item that spans all columns. It uses grid-column properties to create contrast between regular and featured content.'
+  },
+  'concentric-circles': {
+    stars: '⭐⭐⭐⭐',
+    technique: 'Grid-template-areas with nested circular shapes',
+    explanation: 'Uses grid-template-areas to create concentric circles with different sizes. Combined with border-radius: 50%, the grid creates nested circular elements that can be used for hierarchical information display or focus-based interfaces.'
+  },
+  'asymmetric-mosaic': {
+    stars: '⭐⭐⭐',
+    technique: 'Mixed column and row spans for varied item sizes',
+    explanation: 'Creates a visually balanced but asymmetric layout by precisely positioning items with different dimensions. Uses a combination of grid-column and grid-row with span values to create a mosaic-like pattern with clear visual hierarchy.'
+  },
+  'staggered-columns': {
+    stars: '⭐⭐⭐⭐',
+    technique: 'Interlocked grid items with varying heights and widths',
+    explanation: 'Creates a complex staggered effect by interlocking items of different sizes in a way that maintains visual balance. Uses carefully planned grid-column and grid-row positioning to create a layout where items flow around each other.'
+  },
+  'central-focus': {
+    stars: '⭐⭐⭐⭐',
+    technique: 'Grid-template-areas with emphasized center element',
+    explanation: 'Uses named grid-template-areas to create a layout with a central focal point. The design emphasizes one specific grid area while arranging surrounding content in a balanced, asymmetrical pattern that draws attention to the center.'
+  },
+  'diamond-pattern': {
+    stars: '⭐⭐⭐',
+    technique: 'CSS Grid with rotate transform and overlapping center',
+    explanation: 'Creates a diamond pattern by placing items in a grid and applying a 45-degree rotation to the container. Each item is counter-rotated to maintain readability, while z-index ensures proper layering for the center item.'
   }
 }
 
