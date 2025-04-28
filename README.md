@@ -1,21 +1,23 @@
-# 🌸 Petals - Beautiful CSS Grid Maker
+# 🌸 Petals: Pluck Your Perfect Grid
 
-Petals is a modern, intuitive tool for creating beautiful CSS Grid layouts without writing code. Whether you're a beginner or an experienced developer, Petals makes it easy to design responsive grid layouts for your web projects.
+Petals is a simple to use tool to create beautiful CSS Grid layouts, either by choosing a ready template or designing your own. No complex setup needed!
 
 ## ✨ Features
 
-- 🎨 Ready-to-use grid templates
-- 🛠️ Custom grid builder
-- 📱 Responsive design support
-- 🎯 Live preview
-- 📋 One-click code copying
-- 🌙 Dark mode support
+- Ready-to-use grid templates
+- Custom grid builder
+- Responsive design support
+- Live preview
+- One-click code copying
+- Dark mode support
 
 ## 🚀 Getting Started
 
+- Live Preview: [https://petalss.vercel.app/](https://petalss.vercel.app/)
+
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/petals.git
+git clone https://github.com/Shivam-Katare/petals.git
 cd petals
 ```
 
@@ -73,13 +75,6 @@ We welcome contributions from everyone! Here's how you can help:
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- Thanks to all contributors who have helped shape Petals
-- Inspired by the amazing CSS Grid community
-- Built with love for web developers everywhere
-
 ---
 
-Made with 💜 by the Petals team
+Made with 💜 by Shivam Katare
