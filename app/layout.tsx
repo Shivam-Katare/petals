@@ -1,21 +1,33 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { EB_Garamond, Manrope, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { ToastProvider } from "@/components/ui/toast";
+import { ThemeProvider } from "@/components/theme/ThemeProvider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const garamond = EB_Garamond({
+  variable: "--font-garamond",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
+  display: "swap",
 });
+
+const space = Space_Grotesk({
+  variable: "--font-space",
+  subsets: ["latin"],
+  weight: "400"
+})
 
 export const metadata: Metadata = {
   title: "Petals - Beautiful CSS Grid Maker",
   description: "Create beautiful CSS grids without touching code",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
@@ -24,12 +36,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning className={`${space.variable} ${space.variable} font-['Space_Grotesk'] antialiased`}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        // className={`${inter.variable} antialiased`}
       >
-        {children}
-        <ToastProvider />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+          <ToastProvider />
+        </ThemeProvider>
       </body>
     </html>
   );
